@@ -67,7 +67,7 @@ For some reason, `exact_match` was very low.
 Due to lack of time, I only tried multi-task learning for GLUE datasets.
 I implemented only for multi-tasking 2 tasks, but most of the variables were modified to be python lists, hoping them to be flexible for tasks more than 2.
 
-1. Model Architecture
+**1. Model Architecture**
 
 To implement this, I used **hard parameter sharing**. Set the pretrained bert as the bottom layer and create an additional layer for each task. The parameters in the bert layer will be shared, but the parameters on the additionals layers for each task will not be shared.
 
@@ -75,7 +75,7 @@ In `modeling.py`, the class `BertForSequenceClassification` was modified. It wil
 
 I created a new class `GlueModel` for the additional layer that will be given for each tasks. Its `forward` method will take the `pooled_output` from the previous layer and calculate the loss (or logits).
 
-2. Training
+**2. Training**
 
 For every training step, the program will choose among given tasks randomly and train (applying back propagation for each step) the model. (Currently) I had planned to adjust the probabilities of choosing each task proportional to the batch size of each task, (Which would result in a multinomial distribution) but this is not implemented yet.
 
@@ -90,7 +90,9 @@ These questions are still left unanswered:
 
 **Unsolved: The model may not save after training.**
 
-3. Changes to program arguments
+
+**3. Changes to program arguments**
+
 This file was modified from `run_classifier.py` so the arguments are similar.
 
 Compared to `run_classifier.py`:
